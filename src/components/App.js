@@ -1,5 +1,6 @@
 // import DateCounter from "./DateCounter";
 import "../App.css";
+import { getQuizData } from "../service/quiz";
 import Main from "./Main";
 import Header from "./Header";
 import Loader from "./Loader";
@@ -104,10 +105,17 @@ function App() {
   // console.log(maxPossiblePoints);
   //useEffect
   useEffect(function () {
-    fetch("http://localhost:3001/questions")
-      .then((res) => res.json())
-      .then((data) => dispatch({ type: "dataReceived", payload: data }))
-      .catch((err) => dispatch({ type: "dataFailed" }));
+    // fetch("http://localhost:3001/questions")
+    getQuizData()
+      // .then((res) => res.json())
+      .then((res) => {
+        // console.log(res);
+        dispatch({ type: "dataReceived", payload: res.data }); //data is key
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({ type: "dataFailed" });
+      });
   }, []);
 
   return (
